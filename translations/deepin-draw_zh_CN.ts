@@ -804,11 +804,6 @@ Please save it in another name or close that file and try again.</source>
         <translation>文件未保存</translation>
     </message>
     <message>
-        <location filename="../src/drawshape/drawTools/ctexttool.cpp" line="352"/>
-        <source>Source Han Sans CN</source>
-        <translation>思源黑体 CN</translation>
-    </message>
-    <message>
         <location filename="../src/drawshape/drawTools/crecttool.cpp" line="72"/>
         <source>Stroke</source>
         <translation>描边</translation>
