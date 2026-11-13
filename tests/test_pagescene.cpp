@@ -18,6 +18,7 @@
 #include "drawshape/globaldefine.h"
 #include "drawshape/sitemdata.h"
 #include "application.h"
+#include "cviewmanagement.h"
 
 #include "crecttool.h"
 #include "ccuttool.h"
@@ -205,10 +206,12 @@ TEST(PageSceneGetGroupTree, NullptrWithGroups_ReturnsTreeWithChildGroups)
 
     // Select all and group
     view->slotOnSelectAll();
-    DTestEventList e;
-    e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
-    e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
-    e.simulate(view->viewport());
+    {
+        DTestEventList e;
+        e.addKeyPress(Qt::Key_G, Qt::ControlModifier, 100);
+        e.addKeyRelease(Qt::Key_G, Qt::ControlModifier, 100);
+        e.simulate(view->viewport());
+    }
 
     ASSERT_GE(scene->m_pGroups.count(), 1);
 

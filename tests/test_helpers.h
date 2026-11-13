@@ -9,7 +9,11 @@
 // adjusting macros by including test files.
 #include <gtest/gtest.h>
 
+#include <QCoreApplication>
+#include <QEvent>
 #include <QImage>
+#include <QList>
+#include <QStackedWidget>
 
 #include "publicApi.h"
 
@@ -50,13 +54,32 @@ protected:
         DrawBoard *board = mw->drawBoard();
         if (board == nullptr)
             return;
-        // Close the pages added during the test (count() drops
-        // synchronously per closePage), stopping if one refuses so the
-        // loop cannot spin forever.
+        // Close the pages added during the test, stopping if one refuses so
+        // the loop cannot spin forever.
+        //
+        // Locate pages through the board's QStackedWidget rather than
+        // DrawBoard::page(count - 1): the latter indexes the parallel tab bar
+        // (page(i) == page(_topTabs->key(i))), and after a series of rapid
+        // closes that lookup can transiently miss a live stack page
+        // (out-of-range/empty key -> page("") == nullptr) while count() is
+        // still positive. The stack is the authoritative page list.
         while (board->count() > m_baselineCount) {
-            Page *page = board->page(board->count() - 1);
-            if (page == nullptr || !board->closePage(page->key()))
+            QStackedWidget *stack = nullptr;
+            const QList<QStackedWidget *> stacks = board->findChildren<QStackedWidget *>();
+            for (QStackedWidget *s : stacks) {
+                if (s->parentWidget() == board) {
+                    stack = s;
+                    break;
+                }
+            }
+            if (stack == nullptr || stack->count() <= 0)
                 break;
+            Page *page = qobject_cast<Page *>(stack->widget(stack->count() - 1));
+            if (page == nullptr || !page->close(true))
+                break;
+            // Run the board's queued autoClose MetaCall now, under our
+            // control, instead of letting it land inside a later iteration.
+            QCoreApplication::sendPostedEvents(board, QEvent::MetaCall);
         }
     }
 

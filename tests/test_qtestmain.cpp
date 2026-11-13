@@ -190,40 +190,81 @@ public:
         if (board == nullptr) {
             return;
         }
+
+        // Closing the board's last page arms DrawBoard::checkClose(): because
+        // MainWindow::initUI sets autoClose(true) unconditionally, any test
+        // that closes pages down to zero queues _borad->close() on the event
+        // loop. An accepted closeEvent then HIDES the board widget (and emits
+        // toClose -> quitApp). Every page a later test creates inside the
+        // hidden board is invisible, so its PageView-hosted WindowShortcut
+        // actions (Ctrl+G, Ctrl+Shift+G, ...) are ineligible and silently
+        // never fire — all grouping shortcut tests fail with
+        // m_pGroups.count() == 0. Flush the queued close first (otherwise it
+        // would fire during the next test's qWait and re-hide the board right
+        // after this repair), then un-hide the board.
+        QCoreApplication::sendPostedEvents(board, QEvent::MetaCall);
+        if (!board->isVisible()) {
+            qWarning() << "PageJanitor: board hidden by autoClose close after"
+                       << "its last page was closed (during"
+                       << info.test_suite_name() << info.name()
+                       << "); re-showing it";
+            board->show();
+        }
+
         TabBarWgt *tabs = tabBarOf(board);
         QStackedWidget *stack = stackOf(board);
-        if (tabs == nullptr || stack == nullptr) {
-            return;
-        }
-
-        if (!isSynced(stack, tabs)) {
-            reportDesync("tab/stack desync BEFORE close", QString(), info, stack, tabs);
-            if (!repair(tabs, stack)) {
-                m_disabled = true;
-                qWarning() << "PageJanitor: repair failed, janitor disabled";
-            }
-            return;
-        }
-
-        if (m_disabled || board->count() <= 4) {
-            return;
-        }
-
-        Page *cur = board->currentPage();
-        for (int i = 0; i < stack->count(); ++i) {
-            Page *pg = stackPageAt(stack, i);
-            if (pg != nullptr && pg != cur) {
-                const QString closedKey = pg->key();
-                pg->close(true);   // force: no save prompt, no modal
-                if (!isSynced(stack, tabs)) {
-                    reportDesync("desync AFTER close", closedKey, info, stack, tabs);
-                    if (!repair(tabs, stack)) {
-                        m_disabled = true;
-                        qWarning() << "PageJanitor: repair failed, janitor disabled";
+        if (tabs != nullptr && stack != nullptr) {
+            if (!isSynced(stack, tabs)) {
+                reportDesync("tab/stack desync BEFORE close", QString(), info, stack, tabs);
+                if (!repair(tabs, stack)) {
+                    m_disabled = true;
+                    qWarning() << "PageJanitor: repair failed, janitor disabled";
+                }
+            } else if (!m_disabled && board->count() > 4) {
+                Page *cur = board->currentPage();
+                for (int i = 0; i < stack->count(); ++i) {
+                    Page *pg = stackPageAt(stack, i);
+                    if (pg != nullptr && pg != cur) {
+                        const QString closedKey = pg->key();
+                        pg->close(true);   // force: no save prompt, no modal
+                        if (!isSynced(stack, tabs)) {
+                            reportDesync("desync AFTER close", closedKey, info, stack, tabs);
+                            if (!repair(tabs, stack)) {
+                                m_disabled = true;
+                                qWarning() << "PageJanitor: repair failed, janitor disabled";
+                            }
+                        }
+                        break;
                     }
                 }
-                break;
             }
+        }
+
+        // Close the event window on board-queued lambdas: a lambda queued by
+        // an earlier QEvent::Hide (DrawBoard::eventFilter queues a lambda that
+        // dereferences currentPage()->view(), src/frame/ccentralwidget.cpp)
+        // must not survive into the next test. There it fires inside that
+        // test's first nested event pump, and if the page count has meanwhile
+        // dropped to zero (tests that close every page, e.g. via
+        // quitRequest -> DrawBoard::close()), currentPage() is null and the
+        // process SEGVs. Guarantee a live current page first so the lambda
+        // dereferences a valid page, then drain the queue under our control.
+        // This is a harness workaround only; the real fix is a null re-check
+        // inside the lambda (product code, deliberately not modified here).
+        if (board->count() == 0) {
+            qWarning() << "PageJanitor: board left with no pages, adding one";
+            board->addPage();
+        }
+        if (board->currentPage() == nullptr) {
+            Page *first = board->firstPage();
+            if (first != nullptr) {
+                board->setCurrentPage(first);
+            }
+        }
+        QCoreApplication::sendPostedEvents(board, QEvent::MetaCall);
+        if (!board->isVisible()) {
+            qWarning() << "PageJanitor: board hidden at test end; re-showing";
+            board->show();
         }
     }
 
