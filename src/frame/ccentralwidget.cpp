@@ -714,8 +714,9 @@ void Page::closeEvent(QCloseEvent *event)
 void Page::adjustViewScaleRatio()
 {
     if (nullptr != view()) {
-        int viewportWidth = view()->viewport()->width();
-        int viewportHeight = view()->viewport()->height();
+        const int margin = 20;
+        int viewportWidth = view()->viewport()->width() - margin * 2;
+        int viewportHeight = view()->viewport()->height() - margin * 2;
         qreal sceneWidth = scene()->width();
         qreal sceneHeight = scene()->height();
         if (viewportWidth < sceneWidth || viewportHeight < sceneHeight) {
