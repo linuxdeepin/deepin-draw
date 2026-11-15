@@ -877,6 +877,8 @@ void DrawBoard::addPage(Page *page)
     fileWatcher()->addWather(page->file());
 
     setCurrentPage(page);
+
+    page->adjustViewScaleRatio();
 }
 
 bool DrawBoard::closePage(const QString &key)
