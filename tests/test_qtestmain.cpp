@@ -12,6 +12,7 @@
 
 #include <QCoreApplication>
 #include <QStackedWidget>
+#include <QMap>
 #include <qglobal.h>
 #define private public
 #include "application.h"
@@ -145,16 +146,31 @@ public:
 
     // Repairs both drift directions between the board's two parallel page
     // lists: removes tab items whose key no live stack page carries (stale
-    // tab), and force-closes stack pages that have no tab item (orphans —
-    // closePageHelper's removeWidget() drops them from the stack while
-    // removeItem() on an untabbed key is a harmless no-op). Returns true
-    // when the two lists are consistent again.
+    // tab), removes surplus duplicates of keys that live pages do carry
+    // (DrawBoard::addPage(Page*) is not idempotent — Page::setBorad routes
+    // into addPageHelper, which appends another tab item; QTabBar-based
+    // removeItem() only ever removes the first match), and force-closes stack
+    // pages that have no tab item (orphans — closePageHelper's removeWidget()
+    // drops them from the stack while removeItem() on an untabbed key is a
+    // harmless no-op). Returns true when the two lists are consistent again.
     static bool repair(TabBarWgt *tabs, QStackedWidget *stack)
     {
         const QStringList liveKeys = stackKeys(stack);
-        for (const QString &k : tabKeys(tabs)) {
-            if (!liveKeys.contains(k)) {
-                qWarning() << "PageJanitor: removing stale tab item" << k;
+        // Walk the tab list backwards, granting each key as many occurrences
+        // as the stack carries; remove the surplus. removeItem() always
+        // removes the first match, which leaves exactly one entry per key in
+        // the original order.
+        QMap<QString, int> quota;
+        for (const QString &k : liveKeys) {
+            ++quota[k];
+        }
+        const QStringList tks = tabKeys(tabs);
+        for (int i = tks.size() - 1; i >= 0; --i) {
+            const QString k = tks.at(i);
+            if (quota.value(k, 0) > 0) {
+                --quota[k];
+            } else {
+                qWarning() << "PageJanitor: removing stale/duplicate tab item" << k;
                 tabs->removeItem(k);
             }
         }
