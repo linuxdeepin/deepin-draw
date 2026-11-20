@@ -13,6 +13,10 @@
 #include "publicApi.h"
 #include "ccentralwidget.h"
 #include "globaldefine.h"
+#undef protected
+#undef private
+
+#include "cmultiptabbarwidget.h"
 
 /*
  * Page remaining-methods tests (V-6123, Section 四)
@@ -72,6 +76,26 @@ TEST(PageSetBoradTest, SetBoradDoesNotCrash)
     // setBorad with the same board should not crash.
     page->setBorad(board);
     EXPECT_EQ(page->borad(), board);
+
+    // DrawBoard::addPage(Page*) is not idempotent: Page::setBorad routes into
+    // addPageHelper, which unconditionally appends another tab item for the
+    // page, so the board's tab bar now carries this key twice (the stack
+    // widget is unaffected). Remove the surplus entry to restore the
+    // tab/stack invariant — otherwise DrawBoard::page(int)/firstPage(), which
+    // resolve through the tab bar, return wrong pages for the rest of the
+    // suite once the first entry is closed and the duplicate surfaces.
+    TabBarWgt *tabs = nullptr;
+    const QList<TabBarWgt *> bars = board->findChildren<TabBarWgt *>();
+    for (TabBarWgt *t : bars) {
+        if (t->parentWidget() == board) {
+            tabs = t;
+            break;
+        }
+    }
+    ASSERT_NE(tabs, nullptr);
+    const int countBefore = tabs->count();
+    tabs->removeItem(page->key());
+    EXPECT_EQ(tabs->count(), countBefore - 1);
 }
 
 // ---------------------------------------------------------------------------

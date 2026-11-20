@@ -154,10 +154,13 @@ TEST(TabBarWgtLambdaTest, CurrentChangedSwitchesPage)
 // menu() "Close other tabs" action — iterates and closes non-current pages.
 // The lambda uses key(currentIndex()) to determine which page to keep, so
 // we must add tabs for ALL pages and set the bar's current index correctly.
-// NOTE: menu() returns a static singleton with the TabBarWgt as parent;
-// the menu is destroyed when its parent TabBarWgt is destroyed, so only the
-// first TabBarWgt to call menu() gets a valid menu. Both sub-scenarios are
-// tested in one TEST to keep the menu alive throughout.
+// NOTE: menu() keeps a function-local static QMenu parented to the FIRST
+// TabBarWgt that calls it. That bar must outlive the rest of the process:
+// a stack-local bar would destroy the singleton menu at scope exit and leave
+// every later menu() caller (TabBarWgtMenuTest) with a dangling pointer whose
+// actions() returns garbage. So this test heap-allocates its bar, parents it
+// to the process-lifetime DrawBoard, and deliberately never deletes it (same
+// pattern as MenuReturnsNonNull in test_tabbarwgt_menu.cpp).
 // ===========================================================================
 
 TEST(TabBarWgtLambdaTest, CloseOtherTabsActionClosesNonCurrentPages)
@@ -183,19 +186,21 @@ TEST(TabBarWgtLambdaTest, CloseOtherTabsActionClosesNonCurrentPages)
     ASSERT_NE(p2, nullptr);
     EXPECT_EQ(board->count(), 3);
 
-    TabBarWgt bar(board);
-    bar.show();
+    // Heap-allocate, parented to the board (lives for the whole process), and
+    // never deleted — see the NOTE above about the menu() static singleton.
+    TabBarWgt *bar = new TabBarWgt(board);
+    bar->show();
 
     // Add tabs for ALL pages so key(currentIndex()) resolves to a real page.
-    bar.addItem(p0->name(), p0->key());   // index 0
-    bar.addItem(p1->name(), p1->key());   // index 1
-    bar.addItem(p2->name(), p2->key());   // index 2
+    bar->addItem(p0->name(), p0->key());   // index 0
+    bar->addItem(p1->name(), p1->key());   // index 1
+    bar->addItem(p2->name(), p2->key());   // index 2
 
     // Set the bar's current index to p2's tab so p2 survives "close others".
-    bar.setCurrentIndex(2);
+    bar->setCurrentIndex(2);
     QCoreApplication::processEvents(QEventLoop::AllEvents, 200);
 
-    QMenu *m = bar.menu();
+    QMenu *m = bar->menu();
     ASSERT_NE(m, nullptr);
 
     // Find the "Close other tabs" action and trigger it.
