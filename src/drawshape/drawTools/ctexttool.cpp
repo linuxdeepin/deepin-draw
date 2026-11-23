@@ -350,7 +350,7 @@ void CTextTool::initFontFamilyWidget(QComboBox *fontHeavy)
 
     // 设置默认的字体类型为思源宋黑体，没有该字体则选择系统第一个默认字体
     QFontDatabase fontbase;
-    QString sourceHumFont = QObject::tr("Source Han Sans CN");
+    QString sourceHumFont = QStringLiteral("Source Han Sans CN");
     if (!fontbase.families().contains(sourceHumFont)) {
         qCDebug(drawShapeLog) << "Source Han Sans CN font not found, using first available font";
         sourceHumFont = fontbase.families().first();
